@@ -26,8 +26,8 @@ async function bootstrap() {
 
   // Swagger documentation
   const config = new DocumentBuilder()
-    .setTitle('E-Commerce API')
-    .setDescription('Backend API for e-commerce platform')
+    .setTitle('Mini E-Commerce API')
+    .setDescription('Backend API for mini e-commerce platform with authentication, product management, cart, and orders')
     .setVersion('1.0')
     .addBearerAuth(
       {
