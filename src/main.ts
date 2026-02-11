@@ -6,9 +6,6 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Global prefix
-  app.setGlobalPrefix(process.env.API_PREFIX || 'api/v1');
-
   // Enable CORS
   app.enableCors();
 
@@ -47,6 +44,11 @@ async function bootstrap() {
     swaggerOptions: {
       persistAuthorization: true,
     },
+  });
+
+  // Global prefix (set after Swagger setup to exclude docs and health from prefix)
+  app.setGlobalPrefix(process.env.API_PREFIX || 'api/v1', {
+    exclude: ['api/docs', 'api/docs-json', 'health'],
   });
 
   const port = process.env.PORT || 3000;
