@@ -137,6 +137,33 @@ export class OrdersService {
     };
   }
 
+  async getAllOrders() {
+    const orders = await this.prisma.order.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        orderItems: {
+          include: {
+            product: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      success: true,
+      data: orders,
+      count: orders.length,
+    };
+  }
+
   async getOrderById(userId: string, orderId: string) {
     const order = await this.prisma.order.findFirst({
       where: {
@@ -276,6 +303,75 @@ export class OrdersService {
       success: true,
       data: updatedOrder,
       message: 'Order status updated successfully',
+    };
+  }
+
+  async simulatePayment(userId: string, orderId: string) {
+    const order = await this.prisma.order.findFirst({
+      where: {
+        id: orderId,
+        userId,
+      },
+      include: {
+        orderItems: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+
+    if (order.status !== 'PENDING') {
+      throw new BadRequestException(
+        `Payment can only be processed for PENDING orders. Current status: ${order.status}`,
+      );
+    }
+
+    // Simulate payment processing (random success/failure for realism)
+    const paymentSuccess = Math.random() > 0.1; // 90% success rate
+
+    if (!paymentSuccess) {
+      return {
+        success: false,
+        message: 'Payment failed. Please try again.',
+        data: {
+          orderId: order.id,
+          paymentStatus: 'FAILED',
+          amount: order.totalAmount,
+        },
+      };
+    }
+
+    // Mark order as PROCESSING after successful payment
+    const updatedOrder = await this.prisma.order.update({
+      where: { id: orderId },
+      data: { status: 'PROCESSING' },
+      include: {
+        orderItems: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Payment processed successfully',
+      data: {
+        order: updatedOrder,
+        payment: {
+          transactionId: `TXN_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+          amount: order.totalAmount,
+          status: 'COMPLETED',
+          method: 'SIMULATED',
+          paidAt: new Date().toISOString(),
+        },
+      },
     };
   }
 }
