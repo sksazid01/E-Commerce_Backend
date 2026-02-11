@@ -1,6 +1,7 @@
 import {
   Injectable,
   ConflictException,
+  ForbiddenException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -18,6 +19,16 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { email, password, role, firstName, lastName } = registerDto;
+
+    if (role === 'ADMIN') {
+      const existingAdminCount = await this.prisma.user.count({
+        where: { role: 'ADMIN' },
+      });
+
+      if (existingAdminCount > 0) {
+        throw new ForbiddenException('Admin registration is not allowed');
+      }
+    }
 
     // Check if user already exists
     const existingUser = await this.prisma.user.findUnique({

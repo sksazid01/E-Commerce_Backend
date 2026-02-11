@@ -79,15 +79,26 @@ export class OrdersService {
           },
         });
 
-        // Deduct stock
-        await tx.product.update({
-          where: { id: item.productId },
+        // Deduct stock atomically (prevents negative stock under concurrency)
+        const stockUpdate = await tx.product.updateMany({
+          where: {
+            id: item.productId,
+            stock: {
+              gte: item.quantity,
+            },
+          },
           data: {
             stock: {
               decrement: item.quantity,
             },
           },
         });
+
+        if (stockUpdate.count !== 1) {
+          throw new ConflictException(
+            `Insufficient stock for ${item.product.name}. Please try again.`,
+          );
+        }
       }
 
       // Clear cart
