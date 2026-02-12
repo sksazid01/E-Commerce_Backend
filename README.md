@@ -68,6 +68,8 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed system design, database sc
 User ──┐
        ├──> Cart ──> CartItem ──> Product
        └──> Order ──> OrderItem ──> Product
+
+TokenBlacklist (stores revoked JWT tokens)
 ```
 
 **Core Entities:**
@@ -75,6 +77,7 @@ User ──┐
 - Product (with stock tracking)
 - Cart & CartItem (temporary storage)
 - Order & OrderItem (finalized purchases)
+- TokenBlacklist (logout/token revocation)
 
 ---
 
@@ -182,7 +185,6 @@ Access the full Swagger documentation at: **http://localhost:3000/api/docs**
 | POST | `/api/v1/auth/register` | Register new user | Public |
 | POST | `/api/v1/auth/login` | Login user | Public |
 | POST | `/api/v1/auth/logout` | Logout user (blacklist token) | JWT |
-| POST | `/api/v1/auth/logout` | Logout user | JWT |
 
 #### Users
 | Method | Endpoint | Description | Auth |
@@ -224,7 +226,8 @@ All protected endpoints require a JWT token in the Authorization header:
 ```
 Authorization: Bearer <your-jwt-token>
 ```
-Authentication Flow
+
+### Authentication Flow
 
 **1. Register:**
 ```bash
@@ -272,8 +275,7 @@ curl -X POST http://localhost:3000/api/v1/auth/logout \
   -H "Authorization: Bearer <token>"
 ```
 
-**Note:** After logout, the token is blacklisted on the server and cannot be reused. The frontend should also remove the token from local storage/cookies.H "Authorization: Bearer <token>"
-```
+**Note:** After logout, the token is blacklisted on the server and cannot be reused. The frontend should also remove the token from local storage/cookies.
 
 ---
 
@@ -345,6 +347,17 @@ OrderItem {
   productId: string (FK)
   quantity: number
   price: Decimal (locked at order time)
+  createdAt: datetime
+}
+```
+
+### TokenBlacklist
+```typescript
+{
+  id: string (UUID)
+  token: string (unique)
+  userId: string
+  expiresAt: datetime
   createdAt: datetime
 }
 ```
@@ -457,10 +470,12 @@ E-Commerce_backend/
 - OrderItem stores price at purchase time
 - Product price changes don't affect past orders
 
-### 5. JWT Authentication
-- **Why:** Stateless, scalable authentication
-- No server-side session storage needed
+### 5. JWT Authentication with Token Blacklist
+- **Why:** Stateless, scalable authentication with logout capability
+- No server-side session storage needed for active sessions
 - Token contains user ID and role for quick authorization
+- Blacklist table enables true logout (token revocation)
+- Expired tokens automatically cleaned up based on expiration time
 
 ---
 
