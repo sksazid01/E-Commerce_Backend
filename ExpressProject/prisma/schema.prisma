@@ -9,7 +9,7 @@ datasource db {
   provider = "postgresql"
 }
 
-// Enums  
+// Enums
 enum Role {
   ADMIN
   CUSTOMER

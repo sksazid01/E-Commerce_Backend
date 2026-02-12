@@ -180,6 +180,7 @@ Access the full Swagger documentation at: **http://localhost:3000/api/docs**
 |--------|----------|-------------|------|
 | POST | `/api/v1/auth/register` | Register new user | Public |
 | POST | `/api/v1/auth/login` | Login user | Public |
+| POST | `/api/v1/auth/logout` | Logout user | JWT |
 
 #### Users
 | Method | Endpoint | Description | Auth |
