@@ -26,7 +26,8 @@ A robust backend system for an e-commerce platform built with **NestJS**, **Post
 
 - **Authentication & Authorization**
   - User registration and login
-  - JWT-based authentication
+  - JWT-based authentication with token blacklist
+  - Secure logout (token revocation)
   - Role-based access control (Admin/Customer)
   - Fraud prevention system (order cancellation limits)
 
@@ -180,6 +181,7 @@ Access the full Swagger documentation at: **http://localhost:3000/api/docs**
 |--------|----------|-------------|------|
 | POST | `/api/v1/auth/register` | Register new user | Public |
 | POST | `/api/v1/auth/login` | Login user | Public |
+| POST | `/api/v1/auth/logout` | Logout user (blacklist token) | JWT |
 | POST | `/api/v1/auth/logout` | Logout user | JWT |
 
 #### Users
@@ -222,8 +224,7 @@ All protected endpoints require a JWT token in the Authorization header:
 ```
 Authorization: Bearer <your-jwt-token>
 ```
-
-### Example Usage
+Authentication Flow
 
 **1. Register:**
 ```bash
@@ -248,10 +249,30 @@ curl -X POST http://localhost:3000/api/v1/auth/login \
   }'
 ```
 
+**Response includes JWT token:**
+```json
+{
+  "success": true,
+  "data": {
+    "user": { ... },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+}
+```
+
 **3. Use token in subsequent requests:**
 ```bash
 curl http://localhost:3000/api/v1/users/profile \
   -H "Authorization: Bearer <token>"
+```
+
+**4. Logout (Revoke Token):**
+```bash
+curl -X POST http://localhost:3000/api/v1/auth/logout \
+  -H "Authorization: Bearer <token>"
+```
+
+**Note:** After logout, the token is blacklisted on the server and cannot be reused. The frontend should also remove the token from local storage/cookies.H "Authorization: Bearer <token>"
 ```
 
 ---

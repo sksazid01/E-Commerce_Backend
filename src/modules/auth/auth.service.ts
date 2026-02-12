@@ -143,8 +143,17 @@ export class AuthService {
   }
 
   async logout(token: string, userId: string) {
+    if (!token) {
+      throw new UnauthorizedException('Token not provided');
+    }
+
     // Decode token to get expiration time
     const decoded = this.jwtService.decode(token) as any;
+    
+    if (!decoded || !decoded.exp) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
     const expiresAt = new Date(decoded.exp * 1000);
 
     // Add token to blacklist

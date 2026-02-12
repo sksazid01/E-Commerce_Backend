@@ -1,0 +1,14 @@
+                            Table "public.token_blacklist"
+  Column   |              Type              | Collation | Nullable |      Default      
+-----------+--------------------------------+-----------+----------+-------------------
+ id        | text                           |           | not null | 
+ token     | text                           |           | not null | 
+ userId    | text                           |           | not null | 
+ expiresAt | timestamp(3) without time zone |           | not null | 
+ createdAt | timestamp(3) without time zone |           | not null | CURRENT_TIMESTAMP
+Indexes:
+    "token_blacklist_pkey" PRIMARY KEY, btree (id)
+    "token_blacklist_expiresAt_idx" btree ("expiresAt")
+    "token_blacklist_token_idx" btree (token)
+    "token_blacklist_token_key" UNIQUE, btree (token)
+
