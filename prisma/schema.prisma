@@ -9,7 +9,7 @@ datasource db {
   provider = "postgresql"
 }
 
-// Enums
+// Enums  
 enum Role {
   ADMIN
   CUSTOMER
@@ -130,4 +130,18 @@ model OrderItem {
   product Product @relation(fields: [productId], references: [id])
 
   @@map("order_items")
+}
+
+// TokenBlacklist Model (For logout functionality)
+model TokenBlacklist {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([expiresAt])
+  @@map("token_blacklist")
 }

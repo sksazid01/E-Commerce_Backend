@@ -141,4 +141,32 @@ export class AuthService {
       },
     });
   }
+
+  async logout(token: string, userId: string) {
+    // Decode token to get expiration time
+    const decoded = this.jwtService.decode(token) as any;
+    const expiresAt = new Date(decoded.exp * 1000);
+
+    // Add token to blacklist
+    await this.prisma.tokenBlacklist.create({
+      data: {
+        token,
+        userId,
+        expiresAt,
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Logout successful',
+    };
+  }
+
+  async isTokenBlacklisted(token: string): Promise<boolean> {
+    const blacklistedToken = await this.prisma.tokenBlacklist.findUnique({
+      where: { token },
+    });
+
+    return !!blacklistedToken;
+  }
 }

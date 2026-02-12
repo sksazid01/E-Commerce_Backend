@@ -52,6 +52,3 @@ prisma/*.db-journal
 *~
 
 /generated/prisma
-
-
-/ExpressProject
