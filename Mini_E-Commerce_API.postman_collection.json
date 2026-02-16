@@ -1,10 +1,15 @@
 {
   "info": {
     "name": "Mini E-Commerce API",
-    "description": "Complete API collection for the Mini E-Commerce Backend.\n\n## Live API\n🌐 **Production:** https://e-commerce-backend-gk2e.onrender.com\n📚 **Swagger Docs:** https://e-commerce-backend-gk2e.onrender.com/api/docs\n\n⚠️ **Note:** Free tier may take 30-60s for first request after inactivity.\n\n## Setup Instructions\n1. Choose your environment:\n   - **Local:** Set `baseUrl` to `http://localhost:3000/api/v1`\n   - **Live:** Set `baseUrl` to `https://e-commerce-backend-gk2e.onrender.com/api/v1`\n2. Register an Admin user first\n3. Register a Customer user\n4. Login with each to get JWT tokens\n5. Use Admin token for product management\n6. Use Customer token for cart and order operations\n\n## Variables\n- `baseUrl`: API base URL (switch between local/live)\n- `adminToken`: JWT token for admin user (auto-set on login)\n- `customerToken`: JWT token for customer user (auto-set on login)\n- `productId`: ID of created product (auto-set)\n- `orderId`: ID of placed order (auto-set)",
+    "description": "Complete API collection for the Mini E-Commerce Backend.\n\n## Live API\n🌐 **Production:** https://e-commerce-backend-gk2e.onrender.com\n📚 **Swagger Docs:** https://e-commerce-backend-gk2e.onrender.com/api/docs\n\n⚠️ **Note:** Free tier may take 30-60s for first request after inactivity.\n\n## Setup Instructions\n1. Choose your environment:\n   - **Local:** Set `rootUrl` to `http://localhost:3000` and `baseUrl` to `http://localhost:3000/api/v1`\n   - **Live:** Set `rootUrl` to `https://e-commerce-backend-gk2e.onrender.com` and `baseUrl` to `https://e-commerce-backend-gk2e.onrender.com/api/v1`\n2. Register an Admin user first\n3. Register a Customer user\n4. Login with each to get JWT tokens\n5. Use Admin token for product management\n6. Use Customer token for cart and order operations\n\n## Variables\n- `rootUrl`: Root API URL (for health check)\n- `baseUrl`: API base URL with /api/v1 prefix\n- `adminToken`: JWT token for admin user (auto-set on login)\n- `customerToken`: JWT token for customer user (auto-set on login)\n- `productId`: ID of created product (auto-set)\n- `orderId`: ID of placed order (auto-set)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
+    {
+      "key": "rootUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
     {
       "key": "baseUrl",
       "value": "http://localhost:3000/api/v1",
@@ -46,10 +51,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/health",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "3000",
+              "raw": "{{rootUrl}}/health",
+              "host": ["{{rootUrl}}"],
               "path": ["health"]
             }
           }
