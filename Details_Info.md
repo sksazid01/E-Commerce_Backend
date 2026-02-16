@@ -137,7 +137,6 @@ JWT_EXPIRATION="7d"
 # App
 PORT=3000
 NODE_ENV=development
-API_PREFIX="api/v1"
 ```
 
 ### 5. Run Database Migrations
@@ -166,7 +165,7 @@ npm run start:prod
 ```
 
 The API will be available at:
-- **API:** `http://localhost:3000/api/v1`
+- **API:** `http://localhost:3000`
 - **Swagger Docs:** `http://localhost:3000/api/docs`
 
 ---
@@ -182,40 +181,40 @@ Access the full Swagger documentation at: **http://localhost:3000/api/docs**
 #### Authentication
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| POST | `/api/v1/auth/register` | Register new user | Public |
-| POST | `/api/v1/auth/login` | Login user | Public |
-| POST | `/api/v1/auth/logout` | Logout user (blacklist token) | JWT |
+| POST | `/auth/register` | Register new user | Public |
+| POST | `/auth/login` | Login user | Public |
+| POST | `/auth/logout` | Logout user (blacklist token) | JWT |
 
 #### Users
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/users/profile` | Get current user profile | JWT |
+| GET | `/users/profile` | Get current user profile | JWT |
 
 #### Products
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/products` | Get all products | Public |
-| GET | `/api/v1/products/:id` | Get product by ID | Public |
-| POST | `/api/v1/products` | Create product | Admin |
-| PUT | `/api/v1/products/:id` | Update product | Admin |
-| DELETE | `/api/v1/products/:id` | Delete product | Admin |
+| GET | `/products` | Get all products | Public |
+| GET | `/products/:id` | Get product by ID | Public |
+| POST | `/products` | Create product | Admin |
+| PUT | `/products/:id` | Update product | Admin |
+| DELETE | `/products/:id` | Delete product | Admin |
 
 #### Cart
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/v1/cart` | Get user cart | Customer |
-| POST | `/api/v1/cart/items` | Add item to cart | Customer |
-| DELETE | `/api/v1/cart/items/:productId` | Remove item from cart | Customer |
-| DELETE | `/api/v1/cart` | Clear cart | Customer |
+| GET | `/cart` | Get user cart | Customer |
+| POST | `/cart/items` | Add item to cart | Customer |
+| DELETE | `/cart/items/:productId` | Remove item from cart | Customer |
+| DELETE | `/cart` | Clear cart | Customer |
 
 #### Orders
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| POST | `/api/v1/orders` | Place order | Customer |
-| GET | `/api/v1/orders` | Get user orders | JWT |
-| GET | `/api/v1/orders/:id` | Get order by ID | JWT |
-| PATCH | `/api/v1/orders/:id/cancel` | Cancel order | Customer |
-| PATCH | `/api/v1/orders/:id/status` | Update order status | Admin |
+| POST | `/orders` | Place order | Customer |
+| GET | `/orders` | Get user orders | JWT |
+| GET | `/orders/:id` | Get order by ID | JWT |
+| PATCH | `/orders/:id/cancel` | Cancel order | Customer |
+| PATCH | `/orders/:id/status` | Update order status | Admin |
 
 ---
 
@@ -231,7 +230,7 @@ Authorization: Bearer <your-jwt-token>
 
 **1. Register:**
 ```bash
-curl -X POST http://localhost:3000/api/v1/auth/register \
+curl -X POST http://localhost:3000/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -244,7 +243,7 @@ curl -X POST http://localhost:3000/api/v1/auth/register \
 
 **2. Login:**
 ```bash
-curl -X POST http://localhost:3000/api/v1/auth/login \
+curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -265,13 +264,13 @@ curl -X POST http://localhost:3000/api/v1/auth/login \
 
 **3. Use token in subsequent requests:**
 ```bash
-curl http://localhost:3000/api/v1/users/profile \
+curl http://localhost:3000/users/profile \
   -H "Authorization: Bearer <token>"
 ```
 
 **4. Logout (Revoke Token):**
 ```bash
-curl -X POST http://localhost:3000/api/v1/auth/logout \
+curl -X POST http://localhost:3000/auth/logout \
   -H "Authorization: Bearer <token>"
 ```
 
@@ -555,7 +554,6 @@ PORT=3001
 | `JWT_EXPIRATION` | Token expiration time | 7d | ❌ |
 | `PORT` | Application port | 3000 | ❌ |
 | `NODE_ENV` | Environment mode | development | ❌ |
-| `API_PREFIX` | API route prefix | api/v1 | ❌ |
 
 ---
 

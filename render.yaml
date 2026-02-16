@@ -16,6 +16,4 @@ services:
         value: production
       - key: PORT
         value: 3000
-      - key: API_PREFIX
-        value: api/v1
     healthCheckPath: /health

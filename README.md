@@ -187,7 +187,6 @@ JWT_EXPIRATION="7d"
 # App
 PORT=3000
 NODE_ENV=development
-API_PREFIX="api/v1"
 ```
 
 ### 5. Run Database Migrations
@@ -216,9 +215,9 @@ npm run start:prod
 ```
 
 The API will be available at:
-- **Local API:** `http://localhost:3000/api/v1`
+- **Local API:** `http://localhost:3000`
 - **Local Swagger:** `http://localhost:3000/api/docs`
-- **Live API:** `https://e-commerce-backend-gk2e.onrender.com/api/v1`
+- **Live API:** `https://e-commerce-backend-gk2e.onrender.com`
 - **Live Swagger:** `https://e-commerce-backend-gk2e.onrender.com/api/docs`
 
 ---

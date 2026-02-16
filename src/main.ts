@@ -54,11 +54,6 @@ async function bootstrap() {
     },
   });
 
-  // Global prefix (set after Swagger setup to exclude docs and health from prefix)
-  app.setGlobalPrefix(process.env.API_PREFIX || 'api/v1', {
-    exclude: ['api/docs', 'api/docs-json', 'health'],
-  });
-
   const port = process.env.PORT || 3000;
   await app.listen(port);
   

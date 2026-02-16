@@ -58,6 +58,6 @@ prisma/*.db-journal
 # QUICK_START.md
 # RENDER_TROUBLESHOOTING.md
 
-# Debugging logs (exclude from git)
+
 RENDER_DEBUGGING.md
 
