@@ -1,0 +1,9 @@
+# Render ignore file
+node_modules/
+.git/
+.vscode/
+ExpressProject/
+*.log
+.env
+.env.local
+dist/
