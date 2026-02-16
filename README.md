@@ -1,6 +1,12 @@
 # Mini E-Commerce Backend API
 
+🌐 **Live API:** [https://e-commerce-backend-gk2e.onrender.com](https://e-commerce-backend-gk2e.onrender.com)
+
+📚 **API Documentation:** [https://e-commerce-backend-gk2e.onrender.com/api/docs](https://e-commerce-backend-gk2e.onrender.com/api/docs)
+
 A robust backend system for an e-commerce platform built with **NestJS**, **PostgreSQL**, and **Prisma ORM**. Features secure authentication, role-based access control, product management, shopping cart, and order processing with transactional integrity.
+
+**Database:** Hosted on **Aiven Cloud PostgreSQL** with SSL encryption.
 
 ---
 
@@ -10,7 +16,7 @@ A robust backend system for an e-commerce platform built with **NestJS**, **Post
 |------------|---------|
 | **NestJS** | Core backend framework |
 | **TypeScript** | Programming language |
-| **PostgreSQL** | Database engine (local) |
+| **PostgreSQL (Aiven Cloud)** | Database engine with SSL |
 | **Prisma** | ORM for type-safe database access |
 | **Swagger** | API documentation (OpenAPI) |
 | **JWT** | Authentication & authorization |
@@ -210,8 +216,35 @@ npm run start:prod
 ```
 
 The API will be available at:
-- **API:** `http://localhost:3000/api/v1`
-- **Swagger Docs:** `http://localhost:3000/api/docs`
+- **Local API:** `http://localhost:3000/api/v1`
+- **Local Swagger:** `http://localhost:3000/api/docs`
+- **Live API:** `https://e-commerce-backend-gk2e.onrender.com/api/v1`
+- **Live Swagger:** `https://e-commerce-backend-gk2e.onrender.com/api/docs`
+
+---
+
+## 🌐 Deployment
+
+This application is deployed on **Render** with **Aiven Cloud PostgreSQL**.
+
+**Live Demo:** [https://e-commerce-backend-gk2e.onrender.com](https://e-commerce-backend-gk2e.onrender.com)
+
+### Features:
+- ✅ Auto-deployment from GitHub
+- ✅ SSL-secured Aiven PostgreSQL database
+- ✅ Automatic database migrations on deploy
+- ✅ Health monitoring at `/health`
+- ⚠️ Free tier: Service may spin down after 15 minutes of inactivity (first request takes ~30s)
+
+### Deploy Your Own:
+1. Fork this repository
+2. Sign up on [Render](https://render.com) and [Aiven](https://aiven.io)
+3. Set up PostgreSQL on Aiven
+4. Connect your repo to Render
+5. Set `DATABASE_URL` environment variable
+6. Deploy!
+
+📖 **Detailed Guide:** See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete instructions.
 
 ---
 
